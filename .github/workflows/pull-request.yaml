@@ -1,0 +1,41 @@
+name: Pull Request Check
+on: [pull_request]
+jobs:
+  check-commit-message:
+    name: Check Commit Message
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Commit Message
+        uses: gsactions/commit-message-checker@v1
+        with:
+          pattern: '^((feat|fix|build|ci|chore|docs|perf|improvement|refactor|revert|style|test)?(?:\(([^\A-Z)\s]+)?\))?(\!)?: (.+))(\n{2}|$)(((?:^.+(\n|$))+(?:\n|$){0,2}?)+(?:(^.+(\n|$))+)|(?:^.+$))?'
+          error: 'The commit message must follow the format of the Conventional Commits (https://conventionalcommits.org/).'
+
+  unit-test:
+    name: Unit Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Go 1.14
+        uses: actions/setup-go@v1
+        with:
+          go-version: 1.14
+        id: go
+
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Cache modules
+        id: cache-go-modules
+        uses: actions/cache@v1
+        with:
+          path: ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+
+      - name: Get dependencies
+        if: steps.cache-go-modules.outputs.cache-hit != 'true'
+        run: go mod download
+
+      - name: Run Unit Test
+        run: go test ./...

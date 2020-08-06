@@ -33,11 +33,11 @@ func printFile(path string) (err error) {
 Error also can be captured to error channel (`chan error`). It has a good fit with resources managed in goroutines.
 
 ```go
-f, err := os.OpenFile(path)
-if err != nil {
-    return errors.Wrapf(err, "open %s", path)
-}
-defer errorist.CloseWithErrLog(f, errChan)
+errChan := make(chan error)
+go func() {
+    f, err := os.OpenFile(path)
+    defer errorist.CloseWithErrChan(f, errChan)
+}()
 ```
 
 
@@ -78,9 +78,10 @@ If you want to just wrap errors, you may use [pkg/errors](http://github.com/pkg/
 errorist provides panic recovery functions that can be used together with `defer`.
 
 ```go
-wg, ctx := errgroup.New(context.Background())
+wg, ctx := errgroup.WithContext(context.Background())
 wg.Go(func() (err error) {
     defer errorist.RecoverWithErrCapture(&err)
+    ...
 })
 ```
 

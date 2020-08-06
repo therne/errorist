@@ -22,11 +22,11 @@ func CloseWithErrChan(c io.Closer, errChan chan<- error, opts ...Option) {
 	}
 }
 
-// CloseWithErrLog is used if you want to close and fail the function or
+// CloseWithLogOnErr is used if you want to close and fail the function or
 // method on a `io.Closer.Close()` error (make sure the `error` return argument is
-// named as `err`). If the error is already present, `CloseWithErrLog`
+// named as `err`). If the error is already present, `CloseWithLogOnErr`
 // will log the error caused by `Close` if any.
-func CloseWithErrLog(c io.Closer, opts ...Option) {
+func CloseWithLogOnErr(c io.Closer, opts ...Option) {
 	if err := c.Close(); err != nil {
 		opt := applyOptions(opts)
 		opt.Logger(maybeWrap(err, opt).Error())

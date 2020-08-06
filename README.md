@@ -8,11 +8,11 @@ Package errorist provides useful error handling utilities, including ones recomm
 [Thanos Coding Style Guide](https://thanos.io/contributing/coding-style-guide.md/#defers-don-t-forget-to-check-returned-errors)
 or [Uber go style guide](https://github.com/uber-go/guide/blob/master/style.md).
 
-### Closing Resources
+## Closing Resources
 
 errorist provides resource management utilities for easily closing `io.Closer` with `defer`.
 
-#### With Error Capture
+### With Error Capture
 
 Most recommended way is using error capture. Error caused by `Close` will be captured on given `error` pointer
  if there's no error already present on it.
@@ -28,7 +28,7 @@ func printFile(path string) (err error) {
 }
 ```
 
-#### With Error Channel
+### With Error Channel
 
 Error also can be captured to error channel (`chan error`). It has a good fit with resources managed in goroutines.
 
@@ -41,7 +41,7 @@ go func() {
 ```
 
 
-#### With Error Log
+### With Error Log
 
 Otherwise, why can't we just log and ignore it? Default logger is `log.Println` but you can customize it with options.
 
@@ -53,7 +53,7 @@ defer errorist.CloseWithLogOnErr(f)
 defer errorist.CloseWithLogOnErr(f, errorist.LogWithLogrus(logger.Warn))
 ```
 
-#### Adding Contexts with Error Wrapping
+### Adding Contexts with Error Wrapping
 
 If you're familiar with `errors.Wrap` or `fmt.Errorf`, you might want to do same thing on errors handling with errorist.
 errorist provides option for wrapping errors with context.
@@ -73,7 +73,7 @@ func printFile(path string) (err error) {
 If you want to just wrap errors, you may use [pkg/errors](http://github.com/pkg/errors) or `fmt.Errorf` with `%w` pattern added in Go 1.13.
 
 
-### Recovering from Panics
+## Recovering from Panics
 
 errorist provides panic recovery functions that can be used together with `defer`.
 
@@ -102,7 +102,7 @@ panic: assignment to entry in nil map
     github.com/therne/errorist.TestWrapPanicWith (panic_test.go:11)
 ```
 
-### Prettifying Stacktraces on Error
+## Prettifying Stacktraces on Error
 
 [pkg/errors](http://github.com/pkg/errors) is most popular and powerful tool for handling and wrapping errors.
 errorist provides extracting and prettifying a stacktrace from errors created and wrapped by pkg/errors.

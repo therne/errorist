@@ -4,8 +4,9 @@ errorist
 [![Godoc Reference](http://img.shields.io/badge/godoc-reference-5272B4.svg?style=for-the-badge)](https://pkg.go.dev/github.com/therne/errorist)
 ![MIT License Badge](https://img.shields.io/github/license/therne/errorist?style=for-the-badge)
 
-Package errorist provides useful error handling utilities, including ones recommended in [thanos-go style guide]()
-or [Uber go style guide]().
+Package errorist provides useful error handling utilities, including ones recommended in
+[Thanos Coding Style Guide](https://thanos.io/contributing/coding-style-guide.md/#defers-don-t-forget-to-check-returned-errors)
+or [Uber go style guide](https://github.com/uber-go/guide/blob/master/style.md).
 
 ### Closing Resources
 

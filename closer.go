@@ -7,7 +7,7 @@ import "io"
 // named as `err`). If the error is already present, `CloseWithErrCapture`
 // will append the error caused by `Close` if any.
 func CloseWithErrCapture(c io.Closer, capture *error, opts ...Option) {
-	if err := c.Close(); err != nil && *capture != nil {
+	if err := c.Close(); err != nil && *capture == nil {
 		*capture = maybeWrap(err, applyOptions(opts))
 	}
 }

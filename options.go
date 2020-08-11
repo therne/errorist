@@ -68,7 +68,7 @@ func WithDetailedTrace() Option {
 	}
 }
 
-// WithDetailedTrace is an option for including non-project files to stacktrace.
+// IncludeNonProjectFiles is an option for including non-project files to stacktrace.
 // It is not recommended to use this option for production because it refers
 // GOPATH from environment variable for the decision. IncludedPackages is recommended.
 func IncludeNonProjectFiles() Option {
@@ -113,7 +113,7 @@ func WithLogHandler(handler func(err string)) Option {
 	}
 }
 
-// SetPackageLevelOptions sets options applied in current package scope.
+// SetGlobalOptions sets options applied in current package scope.
 // It can override global options.
 func SetGlobalOptions(opts ...Option) {
 	globalOptions = opts

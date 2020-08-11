@@ -1,5 +1,5 @@
-errorist
-============
+<img src="https://raw.githubusercontent.com/therne/errorist/master/docs/logo.png" alt="errorist" height="300px" />
+
 
 [![Godoc Reference](http://img.shields.io/badge/godoc-reference-5272B4.svg?style=for-the-badge)](https://pkg.go.dev/github.com/therne/errorist)
 ![MIT License Badge](https://img.shields.io/github/license/therne/errorist?style=for-the-badge)

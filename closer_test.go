@@ -28,7 +28,7 @@ func TestCloseWithErrCapture(t *testing.T) {
 			m := &closerMock{ReturnError: expectedErr}
 			defer CloseWithErrCapture(m, &actualErr)
 
-			So(m.CloseCalled, ShouldEqual, 1)
+			So(m.CloseCalled, ShouldEqual, 0)
 			So(actualErr, ShouldBeError, "already present")
 		})
 

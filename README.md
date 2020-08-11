@@ -4,18 +4,18 @@
 [![Godoc Reference](http://img.shields.io/badge/godoc-reference-5272B4.svg?style=for-the-badge)](https://pkg.go.dev/github.com/therne/errorist)
 ![MIT License Badge](https://img.shields.io/github/license/therne/errorist?style=for-the-badge)
 
-Package errorist provides useful error handling utilities, including ones recommended in
+Package errorist provides useful error handling utilities inspired by
 [Thanos Coding Style Guide](https://thanos.io/contributing/coding-style-guide.md/#defers-don-t-forget-to-check-returned-errors)
-or [Uber go style guide](https://github.com/uber-go/guide/blob/master/style.md).
+and [Uber go style guide](https://github.com/uber-go/guide/blob/master/style.md).
 
 ## Closing Resources
 
-errorist provides resource management utilities for easily closing `io.Closer` with `defer`.
+errorist provides hassle-free functions closing `io.Closer` with `defer`.
 
 ### With Error Capture
 
-Most recommended way is using error capture. Error caused by `Close` will be captured on given `error` pointer
- if there's no error already present on it.
+The most recommended way is using error capture. An error caused by `Close` will be captured on the given `error` pointer
+ unless it already has an error as the value.
 
 ```go
 func printFile(path string) (err error) {
@@ -30,7 +30,7 @@ func printFile(path string) (err error) {
 
 ### With Error Channel
 
-Error also can be captured to error channel (`chan error`). It has a good fit with resources managed in goroutines.
+An error also can be captured and sent to an error channel (`chan error`). It is a good fit with resources in goroutines.
 
 ```go
 errChan := make(chan error)
@@ -43,7 +43,7 @@ go func() {
 
 ### With Error Log
 
-Otherwise, why can't we just log and ignore it? Default logger is `log.Println` but you can customize it with options.
+Otherwise, why don't we just log and ignore it? Default logger is `log.Println` but you are able to customize it with options.
 
 
 ```go
@@ -55,8 +55,8 @@ defer errorist.CloseWithLogOnErr(f, errorist.LogWithLogrus(logger.Warn))
 
 ### Adding Contexts with Error Wrapping
 
-If you're familiar with `errors.Wrap` or `fmt.Errorf`, you might want to do same thing on errors handling with errorist.
-errorist provides option for wrapping errors with context.
+If you're familiar with `errors.Wrap` or `fmt.Errorf`, you may want to do the same error handling with errorist.
+errorist provides the option wrapping errors with context.
 
 ```go
 func printFile(path string) (err error) {
@@ -69,13 +69,13 @@ func printFile(path string) (err error) {
 }
 ```
 
-> Note that `errorist.Wrapf` is just option specifier for errorist; it cannot be used solely.
-If you want to just wrap errors, you may use [pkg/errors](http://github.com/pkg/errors) or `fmt.Errorf` with `%w` pattern added in Go 1.13.
+> Note that `errorist.Wrapf` is just an option specifier for errorist; it cannot be used solely.
+If you want to just wrap errors, you can use [pkg/errors](http://github.com/pkg/errors) or `fmt.Errorf` with `%w` pattern added in Go 1.13.
 
 
 ## Recovering from Panics
 
-errorist provides panic recovery functions that can be used together with `defer`.
+errorist provides panic recovery functions that can be used with `defer`.
 
 ```go
 wg, ctx := errgroup.WithContext(context.Background())
@@ -85,7 +85,7 @@ wg.Go(func() (err error) {
 })
 ```
 
-Stacktrace is prettified and calls from non-project source will be filtered by default.
+Stacktrace is prettified, and calls from non-project source will be filtered by default.
 You can customize stacktrace format with options. For details, please refer
 [options.go](https://github.com/therne/errorist/blob/master/options.go).
 
@@ -102,10 +102,10 @@ panic: assignment to entry in nil map
     github.com/therne/errorist.TestWrapPanicWith (panic_test.go:11)
 ```
 
-## Prettifying Stacktraces on Error
+## Prettifying Stacktraces on Errors
 
-[pkg/errors](http://github.com/pkg/errors) is most popular and powerful tool for handling and wrapping errors.
-errorist provides extracting and prettifying a stacktrace from errors created and wrapped by pkg/errors.
+[pkg/errors](http://github.com/pkg/errors) is the most popular and powerful tool for handling and wrapping errors.
+errorist provides extracting and prettifying a stacktrace from errors created or wrapped by pkg/errors.
 
 ```go
 errorist.Stacktrace(err) ==
@@ -115,7 +115,7 @@ errorist.Stacktrace(err) ==
     }
 ```
 
-An example usecase is using it with API response for debugging errors.
+The below example shows how to use it in API responses for debugging purposes.
 
 ```go
 func handleGinError(c *gin.Context) {
@@ -132,7 +132,7 @@ func handleGinError(c *gin.Context) {
 
 ## Options
 
-You can apply options globally, package-wide, or with call arguments. Options set on smaller scope can override options set on wider scope.
+You can use global options, package-wide, or with call arguments. Options set on a smaller scope can override options set on a wider scope.
 
 ```go
 errorist.SetGlobalOptions(
@@ -150,6 +150,6 @@ errorist.SetPackageLevelOptions(
 errorist.CloseWithErrCapture(f, &err, errorist.Wrapf("close %s", path))
 ```
 
-For detailed options reference, please refer [Godoc](https://pkg.go.dev/github.com/therne/errorist?tab=doc#Options) or [options.go](https://github.com/therne/errorist/blob/master/options.go).
+For detailed options, please refer [Godoc](https://pkg.go.dev/github.com/therne/errorist?tab=doc#Options) or [options.go](https://github.com/therne/errorist/blob/master/options.go).
 
 ###### License: MIT

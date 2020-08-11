@@ -18,9 +18,9 @@ type stackTracer interface {
 	StackTrace() errors.StackTrace
 }
 
-// Stacktrace returns pretty-formatted stack trace of errors created or wrapped by
-// `github.com/pkg/errors` library. Runtime stack traces are skipped for simplicity.
-func Stacktrace(err error, opt ...Option) (traceEntries []string) {
+// Stacktrace returns pretty-formatted stack trace of an error created or wrapped by
+// `github.com/pkg/errors` package. Runtime stack traces are skipped for simplicity.
+func Stacktrace(err error, _ ...Option) (traceEntries []string) {
 	tr, ok := err.(stackTracer)
 	if !ok {
 		return []string{callerTrace(1)}

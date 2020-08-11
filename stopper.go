@@ -14,7 +14,7 @@ func StopWithErrCapture(c Stopper, capture *error, opts ...Option) {
 	}
 }
 
-// StopWithErrCapture is used if you want to Stop and fail the function or
+// StopWithErrChan is used if you want to Stop and fail the function or
 // method on a `Stop()` error (make sure the `error` return argument is
 // named as `err`). If the error is already present, `StopWithErrChan`
 // will send the error to the given channel caused by `Stop` if any.

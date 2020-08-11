@@ -12,7 +12,7 @@ func CloseWithErrCapture(c io.Closer, capture *error, opts ...Option) {
 	}
 }
 
-// CloseWithErrCapture is used if you want to close and fail the function or
+// CloseWithErrChan is used if you want to close and fail the function or
 // method on a `io.Closer.Close()` error (make sure the `error` return argument is
 // named as `err`). If the error is already present, `CloseWithErrChan`
 // will send the error to the given channel caused by `Close` if any.

@@ -3,6 +3,7 @@ package errorist
 import (
 	"fmt"
 	"math"
+	"strings"
 )
 
 func RecoverWithErrCapture(capture *error, opts ...Option) {
@@ -27,7 +28,12 @@ func (pe PanicError) Error() string {
 	return pe.Pretty()
 }
 
-func (pe PanicError) Pretty() string {
+func (pe PanicError) Pretty() (desc string) {
+	defer func() {
+		if p := recover(); p != nil {
+			desc = fmt.Sprintf("%s\n  %s", strings.Join(pe.Stack, "\n  "))
+		}
+	}()
 	return fmt.Sprintf("%s\n%s", pe.Reason, formatStacktrace(pe.Stack, pe.Options))
 }
 
